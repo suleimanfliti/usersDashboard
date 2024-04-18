@@ -1,0 +1,29 @@
+<app-header></app-header>
+<div *ngIf="users.length > 1 && !id" class="max-w-5xl my-10 mx-auto">
+  <div class="grid mx-5 grid-cols-2 md:grid-cols-3 gap-4">
+    <div class="w-full py-5" *ngFor="let user of users">
+      <app-user-card [user]="user"></app-user-card>
+    </div>
+  </div>
+
+  <div class="w-full flex mt-10 items-center justify-center">
+    <app-pagination></app-pagination>
+  </div>
+</div>
+<div *ngIf="id && user" class="max-w-5xl my-10 mx-auto">
+  <div class="grid mx-5 grid-cols-2 md:grid-cols-3 gap-4">
+    <app-user-card [user]="user"></app-user-card>
+  </div>
+
+  <div class="w-full flex mt-10 items-center justify-center">
+    <app-pagination></app-pagination>
+  </div>
+</div>
+<div *ngIf="id && !user" class="max-w-5xl my-10 mx-auto">
+  <div class="grid mx-5 grid-cols-2 md:grid-cols-3 gap-4">
+    <h3>item not found</h3>
+  </div>
+</div>
+<div *ngIf="users.length === 0 && !id">
+  <mat-progress-spinner ></mat-progress-spinner>
+</div>
