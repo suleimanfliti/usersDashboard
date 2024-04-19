@@ -8,7 +8,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CachingInterceptor } from './http-interceptor/http-interceptor';
 import { stateReducer } from './store/state.reducer';
 import { provideState, provideStore } from '@ngrx/store';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +20,6 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: CachingInterceptor,
       multi: true,
-    }, provideAnimationsAsync(),
+    },
   ],
 };

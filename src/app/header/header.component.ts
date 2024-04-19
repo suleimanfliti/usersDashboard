@@ -17,7 +17,7 @@ export class HeaderComponent {
   onChangeFilter(event: any) {
     this.store.dispatch(
       setState({
-        id: event,
+        idSearch: event,
       })
     );
   }

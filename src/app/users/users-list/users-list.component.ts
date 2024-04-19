@@ -24,8 +24,9 @@ export class UsersListComponent implements OnInit {
   users: User[] = [];
   user?: User;
   currentPage: number = 1;
-  id?: number;
   loading: boolean = false;
+  id?: number;
+  idSearch?: number;
   constructor(
     private store: Store<{ state: { state: State } }>,
     private usersService: UserService
@@ -35,17 +36,19 @@ export class UsersListComponent implements OnInit {
     this.usersService.getUsers(this.currentPage).subscribe((data: any) => {
       this.store.dispatch(setState({ users: data.data }));
       this.users = data.data;
-      console.log(this.users);
-
       this.loading = false;
-      console.log(this.loading);
     });
     this.store.select('state').subscribe((state: any) => {
       this.currentPage = state.currentPage;
       this.users = state.users;
-      this.id = state.id;
-      if (this.id !== 0) {
-        this.user = this.users.find((item) => item.id === this.id);
+      this.idSearch = state.idSearch;
+      if (this.idSearch) {
+        this.usersService.getUserByID(state.idSearch).subscribe((data) => {
+          this.user = data.data;
+        });
+      } else {
+        this.user = undefined;
+        this.idSearch = undefined;
       }
     });
   }

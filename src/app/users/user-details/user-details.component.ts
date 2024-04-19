@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../store/state.model';
 import { User } from '../user';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user/user.service';
+import { setState } from '../../store/state.actions';
 
 @Component({
   selector: 'app-user-details',
@@ -16,13 +18,19 @@ export class UserDetailsComponent implements OnInit {
   id: number = 0;
   user?: User;
   loading: boolean = true;
-  constructor(private store: Store<{ state: { state: State } }>) {}
+  constructor(
+    private store: Store<{ state: { state: State } }>,
+    private userService: UserService,
+    private routerActive: ActivatedRoute
+  ) {}
   ngOnInit(): void {
-    this.store.select('state').subscribe((state: any) => {
-      this.loading = false;
-      this.id = state.id;
-      this.user = state.users.filter((item: User) => item.id === this.id)[0];
-      console.log(this.user);
+    this.routerActive.params.subscribe(({ id }) => {
+      this.userService.getUserByID(id).subscribe((data) => {
+        this.user = data.data;
+      });
     });
+  }
+  setPrevius() {
+    this.store.dispatch(setState({ id: undefined }));
   }
 }

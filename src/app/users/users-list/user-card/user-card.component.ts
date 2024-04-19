@@ -21,6 +21,6 @@ export class UserCardComponent {
   clickMoreDetails() {
     //save id in state .
     this.store.dispatch(setState({ id: this.user?.id }));
-    this.router.navigate(['/', 'user-details']);
+    this.router.navigate(['/', 'user-details', this.user?.id]);
   }
 }
